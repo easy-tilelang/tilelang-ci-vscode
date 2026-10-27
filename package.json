@@ -1,0 +1,171 @@
+{
+  "name": "tilelang-ci-vscode",
+  "displayName": "TileLang CI",
+  "description": "GitHub Actions resource queues and your pull request positions, inside VS Code.",
+  "version": "0.1.0",
+  "publisher": "easy-tilelang",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/easy-tilelang/tilelang-ci-vscode.git"
+  },
+  "homepage": "https://github.com/easy-tilelang/tilelang-ci-vscode#readme",
+  "bugs": {
+    "url": "https://github.com/easy-tilelang/tilelang-ci-vscode/issues"
+  },
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "tilelang",
+    "github",
+    "actions",
+    "CI",
+    "queue",
+    "runner"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "main": "./dist/extension.cjs",
+  "activationEvents": [
+    "onView:tilelangCI.explorer",
+    "onWebviewPanel:tilelangCI.dashboard"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": {
+      "supported": "limited",
+      "description": "Manually selected GitHub repositories work; Git metadata discovery requires a readable filesystem."
+    }
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "tilelangCI.open",
+        "title": "%command.open%"
+      },
+      {
+        "command": "tilelangCI.selectRepository",
+        "title": "%command.selectRepository%",
+        "icon": "$(repo)"
+      },
+      {
+        "command": "tilelangCI.refresh",
+        "title": "%command.refresh%",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "tilelangCI.signIn",
+        "title": "%command.signIn%"
+      },
+      {
+        "command": "tilelangCI.switchAccount",
+        "title": "%command.switchAccount%"
+      },
+      {
+        "command": "tilelangCI.enablePrivate",
+        "title": "%command.enablePrivate%"
+      },
+      {
+        "command": "tilelangCI.showLogs",
+        "title": "%command.showLogs%"
+      },
+      {
+        "command": "tilelangCI.demo",
+        "title": "%command.demo%"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "tilelangCI",
+          "title": "TileLang CI",
+          "icon": "media/activity.svg"
+        }
+      ]
+    },
+    "views": {
+      "tilelangCI": [
+        {
+          "id": "tilelangCI.explorer",
+          "name": "%view.name%",
+          "contextualTitle": "TileLang CI"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "tilelangCI.selectRepository",
+          "when": "view == tilelangCI.explorer",
+          "group": "navigation@1"
+        },
+        {
+          "command": "tilelangCI.refresh",
+          "when": "view == tilelangCI.explorer",
+          "group": "navigation@2"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "TileLang CI",
+      "properties": {
+        "tilelangCI.autoRefresh": {
+          "type": "boolean",
+          "default": true,
+          "description": "%config.autoRefresh%"
+        },
+        "tilelangCI.refreshIntervalSeconds": {
+          "type": "number",
+          "default": 120,
+          "minimum": 60,
+          "maximum": 3600,
+          "description": "%config.refreshIntervalSeconds%"
+        },
+        "tilelangCI.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "%config.showStatusBar%"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "check": "tsc --noEmit",
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "test": "node scripts/test.mjs",
+    "test:webview": "playwright test",
+    "test:extension": "node scripts/test-extension.mjs",
+    "test:remote": "node scripts/test-remote.mjs",
+    "preview": "node scripts/preview.mjs",
+    "package": "vsce package --no-dependencies",
+    "vscode:prepublish": "npm run build"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "vscode-uri": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/vscode": "1.95.0",
+    "@playwright/test": "^1.58.0",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^4.0.0",
+    "esbuild": "^0.25.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.0"
+  },
+  "type": "module"
+}

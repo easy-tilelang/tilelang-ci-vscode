@@ -1,0 +1,14 @@
+{
+  "command.open": "TileLang CI: Open Dashboard",
+  "command.selectRepository": "TileLang CI: Select Repository",
+  "command.refresh": "TileLang CI: Refresh",
+  "command.signIn": "TileLang CI: Sign in to GitHub",
+  "command.switchAccount": "TileLang CI: Switch GitHub Account",
+  "command.enablePrivate": "TileLang CI: Enable Private Repository Access",
+  "command.showLogs": "TileLang CI: Show Diagnostics",
+  "command.demo": "TileLang CI: Open Demo",
+  "view.name": "Resources & My PRs",
+  "config.autoRefresh": "Refresh only while the sidebar or dashboard is visible and the VS Code window has focus.",
+  "config.refreshIntervalSeconds": "Seconds between automatic refreshes (60–3600). Rate-limit backoff takes precedence.",
+  "config.showStatusBar": "Show the latest counts and update time for the selected repository."
+}
