@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+- Fix missing personal PR highlighting for fork workflows whose Actions PR references and upstream commit associations are both empty, including tile-ai/tilelang#3636.
+- Discover PR candidates using the fork owner and branch, then require matching base repository, fork repository, branch, and head commit before association. Incomplete pages and ambiguous results remain unconfirmed.
+- Preserve running jobs in My PRs without inventing waiting positions, and add regression coverage for fork identity, reused branches, pagination failures, query encoding, and shared head lookups.
+
 ## 0.1.0
 
 Initial release candidate of TileLang CI.

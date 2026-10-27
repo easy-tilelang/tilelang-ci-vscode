@@ -108,7 +108,7 @@ export class GitHubClient {
       const headers: Record<string, string> = {
         Accept: 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28',
-        'User-Agent': 'easy-tilelang-ci-vscode/0.1.0',
+        'User-Agent': 'easy-tilelang-ci-vscode/0.1.1',
       };
       if (this.token) headers.Authorization = `Bearer ${this.token}`;
       if (cached?.etag) headers['If-None-Match'] = cached.etag;

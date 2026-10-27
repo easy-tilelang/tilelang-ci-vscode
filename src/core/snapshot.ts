@@ -85,7 +85,9 @@ export function associatePull(repository: string, run: ApiRun, candidates: reado
       if (matches.length === 1) { selected = matches[0]; association = 'merge'; }
     } else if (['pull_request', 'pull_request_target', 'workflow_dispatch'].includes(run.event ?? '')) {
       const headRepo = repositoryName(run.head_repository);
-      const matches = pulls.filter(pr => !!run.head_sha && pr.head?.sha === run.head_sha && (!headRepo || repositoryName(pr.head?.repo) === headRepo));
+      const matches = pulls.filter(pr => !!run.head_sha && pr.head?.sha === run.head_sha
+        && (!headRepo || repositoryName(pr.head?.repo) === headRepo)
+        && (!run.head_branch || pr.head?.ref === run.head_branch));
       if (matches.length === 1) { selected = matches[0]; association = 'head'; }
       if (matches.length > 1) return null;
       if (!selected && ['pull_request', 'pull_request_target'].includes(run.event ?? '')) {

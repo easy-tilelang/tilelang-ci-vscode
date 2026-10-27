@@ -14,7 +14,7 @@
 
 需要 Windows、macOS 或 Linux 上的桌面版 **VS Code 1.95+**。
 
-1. 在扩展视图中选择 **… → 从 VSIX 安装…**，安装构建得到的 `tilelang-ci-vscode-0.1.0.vsix`；也可以执行 `code --install-extension tilelang-ci-vscode-0.1.0.vsix`。
+1. 在扩展视图中选择 **… → 从 VSIX 安装…**，安装构建得到的 `tilelang-ci-vscode-0.1.1.vsix`；也可以执行 `code --install-extension tilelang-ci-vscode-0.1.1.vsix`。
 2. 点击 Activity Bar 中的 **TileLang CI**，或在命令面板执行 **TileLang CI: 打开看板**。
 3. 选择 GitHub 仓库。工作区只有一个候选时会自动选中；使用“选择仓库”可以切换 remote、最近选择的仓库，或输入 `owner/repo`、GitHub HTTPS 仓库链接。
 4. 点击“连接 GitHub”，通过 VS Code 登录，自动标注由你创建的 PR。公开仓库也可匿名读取，但会受较低的 GitHub API 限额限制。
@@ -110,7 +110,7 @@ npm run package
 
 无图形界面的 Linux 使用 `xvfb-run -a npm run test:extension`；全新 Linux 环境安装浏览器可能需要 `npx playwright install --with-deps chromium`。`VSCODE_TEST_VERSION` 指定下载的测试宿主版本，`VSCODE_EXECUTABLE_PATH` 选用已安装的 VS Code 可执行文件。Windows PowerShell 若阻止 `npm.ps1`，可改用 `npm.cmd` 和 `npx.cmd`。
 
-`npm run package` 会构建并生成 `tilelang-ci-vscode-0.1.0.vsix`，打包运行代码、界面资源、文档和许可声明，运行时无需额外安装 `node_modules`。通过 `npm run preview` 启动的浏览器预览使用模拟 VS Code 消息和演示数据，不能验证真实登录或远端文件系统。
+`npm run package` 会构建并生成 `tilelang-ci-vscode-0.1.1.vsix`，打包运行代码、界面资源、文档和许可声明，运行时无需额外安装 `node_modules`。通过 `npm run preview` 启动的浏览器预览使用模拟 VS Code 消息和演示数据，不能验证真实登录或远端文件系统。
 
 测试覆盖队列语义、PR 关联、Git 发现、网络请求、刷新调度和宿主消息校验。Webview 测试以隔离的模拟宿主加载构建产物；Extension Host 测试覆盖真实扩展激活和离线命令。这些测试本身不能证明真实 GitHub 登录、私有授权或 Remote SSH 安装已经通过验收。
 

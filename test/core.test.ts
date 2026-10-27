@@ -88,6 +88,12 @@ test('multiple PR references and equal head matches remain ambiguous', () => {
 test('same branch in another fork is not sufficient', () => {
   assert.equal(associatePull(repo, run({ head_repository: { full_name: 'bob/project' } }), [pull()]), null);
 });
+
+test('identical commits on other branches do not establish a head association', () => {
+  assert.equal(associatePull(repo, run({ head_branch: 'other-feature' }), [pull()]), null);
+  const other = pull({ number: 8, head: { ...pull().head, ref: 'other-feature' } });
+  assert.equal(associatePull(repo, run(), [pull(), other])?.number, 7);
+});
 test('merged push is associated only through its merge commit', () => {
   const merged = pull({ state: 'closed', merged_at: '2026-10-16T00:00:00Z', merge_commit_sha: 'b'.repeat(40) });
   const associated = associatePull(repo, run({ event: 'push', head_sha: 'b'.repeat(40) }), [merged]);

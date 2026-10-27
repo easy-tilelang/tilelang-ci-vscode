@@ -1,6 +1,6 @@
 import type { Diagnostic, QueueSnapshot } from '../shared/model.js';
 import { GitHubClient, GitHubError, abortError, isFatal, type PageResult } from './github.js';
-import { ACTIVE_STATUSES, associatePull, buildSnapshot, deduplicateRuns, parseRepository, validId, validatedReferenceNumber } from './snapshot.js';
+import { ACTIVE_STATUSES, associatePull, buildSnapshot, deduplicateRuns, parseRepository, repositoryName, validId, validatedReferenceNumber } from './snapshot.js';
 import type { ApiJob, ApiPull, ApiRepository, ApiRun } from './types.js';
 
 function warnPage<T>(result: PageResult<T>, message: string, kind: Diagnostic['kind'], diagnostics: Diagnostic[]): void {
@@ -81,6 +81,36 @@ export class Collector {
       } catch (error) {
         if (isFatal(error)) throw error;
         diagnostics.push({ kind: 'association', message: `Commit ${sha.slice(0, 7)}: associated PRs could not be read.` });
+      }
+    }
+    // Fork PR runs may expose neither PR references nor base-commit associations.
+    // Discover candidates by the actual fork owner and branch, then require the
+    // complete base + fork + branch + SHA tuple before admitting a candidate.
+    const headQueries = new Map<string, ApiRun[]>();
+    for (const run of runs) {
+      if (!['pull_request', 'pull_request_target', 'workflow_dispatch'].includes(run.event ?? '')
+        || associatePull(repository, run, pulls, commitPulls.get(run.head_sha ?? '') ?? [])) continue;
+      const fork = repositoryName(run.head_repository);
+      if (!fork || typeof run.head_branch !== 'string' || !run.head_branch
+        || !run.head_sha || !/^[0-9a-f]{40,64}$/i.test(run.head_sha)) continue;
+      const head = `${fork.split('/')[0]}:${run.head_branch}`;
+      const matchingRuns = headQueries.get(head) ?? [];
+      matchingRuns.push(run);
+      headQueries.set(head, matchingRuns);
+    }
+    for (const [head, matchingRuns] of headQueries) {
+      try {
+        const query = new URLSearchParams({ state: 'all', head });
+        const page = await this.client.pages<ApiPull>(`${base}/pulls?${query}`, undefined, undefined, signal);
+        if (!page.truncated && !page.error) {
+          pulls.push(...page.items.filter(pull => repositoryName(pull.base?.repo) === repository.toLowerCase()
+            && matchingRuns.some(run => repositoryName(pull.head?.repo) === repositoryName(run.head_repository)
+              && pull.head?.ref === run.head_branch && pull.head?.sha === run.head_sha)));
+        }
+        warnPage(page, 'Fork branch PR candidates are incomplete; personal highlighting may be incomplete.', 'association', diagnostics);
+      } catch (error) {
+        if (isFatal(error)) throw error;
+        diagnostics.push({ kind: 'association', message: 'Fork branch PR candidates could not be read.' });
       }
     }
     if (signal?.aborted) throw abortError();

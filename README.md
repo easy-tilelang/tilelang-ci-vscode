@@ -14,7 +14,7 @@ TileLang CI is a standalone extension maintained by **easy-tilelang**, alongside
 
 Requires desktop **VS Code 1.95 or newer** on Windows, macOS, or Linux.
 
-1. Install a built `tilelang-ci-vscode-0.1.0.vsix` using **Extensions → … → Install from VSIX…**, or run `code --install-extension tilelang-ci-vscode-0.1.0.vsix`.
+1. Install a built `tilelang-ci-vscode-0.1.1.vsix` using **Extensions → … → Install from VSIX…**, or run `code --install-extension tilelang-ci-vscode-0.1.1.vsix`.
 2. Open the **TileLang CI** Activity Bar view, or run **TileLang CI: Open Dashboard** from the Command Palette.
 3. Choose a GitHub repository. A single workspace candidate is selected automatically; use **Select Repository** to choose a remote, a saved repository, or enter `owner/repo` or its HTTPS GitHub URL.
 4. Run **Sign in to GitHub** to identify your account and highlight PRs you created. Public repositories can also be read without signing in, subject to GitHub's lower anonymous API limit.
@@ -110,7 +110,7 @@ npm run package
 
 On headless Linux, run Extension Host tests with `xvfb-run -a npm run test:extension`. Browser installation on a fresh Linux machine may need `npx playwright install --with-deps chromium`. `VSCODE_TEST_VERSION` chooses the downloaded test host; `VSCODE_EXECUTABLE_PATH` uses an existing VS Code executable. On Windows systems where PowerShell blocks `npm.ps1`, invoke `npm.cmd` and `npx.cmd` instead.
 
-`npm run package` builds and creates `tilelang-ci-vscode-0.1.0.vsix`. Packaging includes bundled runtime assets, documentation, and license notices; it does not require runtime `node_modules`. A browser preview, when using `npm run preview`, uses a mock VS Code bridge and demo data; it cannot test the real authentication provider or remote filesystem integration.
+`npm run package` builds and creates `tilelang-ci-vscode-0.1.1.vsix`. Packaging includes bundled runtime assets, documentation, and license notices; it does not require runtime `node_modules`. A browser preview, when using `npm run preview`, uses a mock VS Code bridge and demo data; it cannot test the real authentication provider or remote filesystem integration.
 
 The test suite covers queue semantics, PR association, Git discovery, request handling, refresh scheduling, and host message validation. Webview tests load bundled assets with an isolated mock host. Extension Host tests exercise actual extension activation and offline commands. These tests do not by themselves validate a live GitHub login, private access, or Remote SSH installation.
 

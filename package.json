@@ -2,7 +2,7 @@
   "name": "tilelang-ci-vscode",
   "displayName": "TileLang CI",
   "description": "GitHub Actions resource queues and your pull request positions, inside VS Code.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "easy-tilelang",
   "license": "MIT",
   "icon": "media/icon.png",
